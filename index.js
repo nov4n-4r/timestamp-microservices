@@ -1,12 +1,20 @@
 const express = require("express")
+const cors = require("cors")
 
 const app = express()
+app.use(cors())
 
-const isNan = target => !(parseInt(target) === parseInt(target))
 const isNumber = target => (/^[0-9]+$/).test(target)
 
+app.get("/api", (req, res) => {
+  const date = new Date()
+  return res.json({
+    unix : date.getTime(),
+    utc : date.toUTCString()
+  })
+})
+  
 app.get("/api/:date", (req, res) => {
-  console.log(req.params)
   const arg = !isNumber(req.params.date) ? 
       req.params.date : parseInt(req.params.date)
 
